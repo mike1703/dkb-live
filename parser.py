@@ -1,13 +1,13 @@
+import smtplib
+from email.mime.multipart import MIMEMultipart
+from email.mime.text import MIMEText
+from email.utils import formatdate
 from io import StringIO
 
 import requests
 from lxml import etree
 
-import smtplib
 from secrets import secrets, sender, recipients
-from email.mime.multipart import MIMEMultipart
-from email.mime.text import MIMEText
-from email.utils import formatdate
 
 html = requests.get("https://www.dkb.de/dkb-live/")
 html_string = StringIO(html.text)
@@ -24,7 +24,7 @@ images = ["https://www.dkb.de{}".format(image.strip()) for image in images]
 results = sorted(list(zip(texts, links, images)))
 offer_lines = []
 for result in results:
-    offer_lines.append('<a href="{}"><img src="{}"/>{}</a><br/>'.format(result[1],result[2], result[0]))
+    offer_lines.append('<a href="{}"><img src="{}"/>{}</a><br/>'.format(result[1], result[2], result[0]))
 
 text_string = "\n".join(["{} - {}".format(result[0], result[1]) for result in results])
 html_string = "<html><body><div>{}</div></body></html>".format("".join(offer_lines))
