@@ -7,6 +7,7 @@ import smtplib
 from secrets import secrets, sender, recipients
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
+from email.utils import formatdate
 
 html = requests.get("https://www.dkb.de/dkb-live/")
 html_string = StringIO(html.text)
@@ -41,6 +42,7 @@ with open("offer.html", "r+") as outfile:
         msg['Subject'] = "DKB Live Angebote haben sich geändert"
         msg['From'] = sender
         msg['To'] = ", ".join(recipients)
+        msg["Date"] = formatdate(localtime=True)
 
         # Create the body of the message (a plain-text and an HTML version).
         text = text_string
